@@ -1,0 +1,113 @@
+<html>
+<head>
+<style>
+    .colourButton{
+    background-color: rgb(255,0,0);
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: none;
+    margin: 10px;
+}
+
+#buttonWrapper{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0 auto;
+}
+
+h1{
+    text-align: center;
+}
+
+#colourValue{
+    margin: 0 auto;
+    text-align: center;
+}
+
+#answer{
+    margin: 0 auto;
+    text-align: center;
+}
+
+#reset{
+    margin: 0 auto;
+    text-align: center;
+}
+
+#reset-button{
+    padding: 10px;
+    background: none;
+    border: 1px solid #000;
+    margin: 10px;
+}
+</style>
+</head>
+
+<body>
+    <h1>Guess the colour!</h1>
+    <h2 id="colourValue"></h2>
+    <div id="buttonWrapper">
+        <button class="colourButton"></button>
+        <button class="colourButton"></button>    
+        <button class="colourButton"></button>    
+        <button class="colourButton"></button>    
+        <button class="colourButton"></button>    
+        <button class="colourButton"></button>    
+    </div>
+    <h2 id="answer"></h2>
+
+    <div id="reset"><button id="resetButton">Reset game</button></div>    
+
+<script>
+function setButtonColour(button, red, green, blue)
+{
+    button.setAttribute('style',
+                        'background-color: rgb('+ red +','+ green +','+ blue +');'
+                       );
+}
+
+function makeColourValue()
+{
+    return Math.round(Math.random()*255);
+}
+
+var buttons = document.getElementsByClassName('colourButton');
+var heading = document.getElementById('colourValue');
+var answerMessage = document.getElementById('answer');
+
+function startGame() 
+{
+answerMessage.innerHTML = "";
+var answerButton = Math.round(Math.random() * (buttons.length - 1));
+for (var i = 0; i < buttons.length; i++) 
+{
+  var red = makeColourValue();
+  var green = makeColourValue();
+  var blue = makeColourValue();
+  setButtonColour(buttons[i], red, green, blue);
+    if (i === answerButton) {
+    heading.innerHTML = `(${red}, ${green}, ${blue})`;
+    
+  buttons[i].addEventListener('click', function()
+       {
+        if (this !== buttons[answerButton]) 
+        {
+            answerMessage.innerHTML = "Wrong!";
+        } 
+	else 
+        {
+            answerMessage.innerHTML = "Correct!";
+        }
+       });
+  }
+}
+}
+startGame();
+document.getElementById('resetButton').addEventListener('click', startGame);
+</script>
+</body>
+</html>
